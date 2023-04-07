@@ -7,7 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FilterChip
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -22,6 +26,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.youssef.compose_practise.data.Tracks.TGFilters
+import com.youssef.compose_practise.data.Tracks.TRACKS
 import com.youssef.compose_practise.models.TrackEntity
 import com.youssef.compose_practise.ui.theme.Compose_practiseTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,20 +35,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val tracks = listOf(
-        TrackEntity("track 2", "artist 2"),
-        TrackEntity("track 3", "artist 3"),
-        TrackEntity("track 5", "artist 4"),
-        TrackEntity("track 2", "artist 2"),
-        TrackEntity("track 3", "artist 3"),
-        TrackEntity("track 5", "artist 4"),
-        TrackEntity("track 2", "artist 2"),
-        TrackEntity("track 3", "artist 3"),
-        TrackEntity("track 5", "artist 4"),
-        TrackEntity("track 2", "artist 2"),
-        TrackEntity("track 3", "artist 3"),
-        TrackEntity("track 5", "artist 4")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -50,7 +42,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Compose_practiseTheme {
-                Tracks()
+                Column(modifier = Modifier.fillMaxSize()) {
+                    TGFilterChips()
+                    Spacer(modifier = Modifier.size(10.dp))
+                    Tracks()
+                }
             }
         }
     }
@@ -64,8 +60,8 @@ class MainActivity : ComponentActivity() {
                 .padding(start = 16.dp, end = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(tracks.size) {
-                TrackItem(tracks[it])
+            items(TRACKS.size) {
+                TrackItem(TRACKS[it])
             }
         }
     }
@@ -77,7 +73,10 @@ class MainActivity : ComponentActivity() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(modifier = Modifier.padding(top = 5.dp)) {
+            Row(
+                modifier = Modifier.padding(top = 5.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Image(
                     modifier = Modifier
                         .size(50.dp)
@@ -101,6 +100,26 @@ class MainActivity : ComponentActivity() {
                 Icons.Filled.PlayArrow,
                 contentDescription = ""
             )
+        }
+    }
+
+    @Composable
+    fun TGFilterChips() {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(TGFilters.size) {
+                TGFilterChip(TGFilters[it])
+            }
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    fun TGFilterChip(filter: String, selected: Boolean = false) {
+        FilterChip(shape = RoundedCornerShape(8.dp), onClick = {}, selected = selected) {
+            Text(filter)
         }
     }
 }

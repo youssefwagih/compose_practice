@@ -7,10 +7,11 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
+    primary = spotifyGreen,
     primaryVariant = Purple700,
     secondary = Teal200
 )
+
 
 private val LightColorPalette = lightColors(
     primary = Purple500,
@@ -39,7 +40,7 @@ fun Compose_practiseTheme(
     }
 
     MaterialTheme(
-        colors = colors,
+        colors = DarkColorPalette,
         typography = Typography,
         shapes = Shapes,
         content = content
