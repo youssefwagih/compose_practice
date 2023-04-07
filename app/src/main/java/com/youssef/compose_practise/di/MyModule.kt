@@ -10,15 +10,15 @@ import javax.inject.Named
 @InstallIn(ActivityComponent::class)
 object MyModule {
 
-    @Named("userId")
+  //  @Named("userId")
     @Provides
     fun provideMyString(): String {
         return "Hello, Dagger Hilt!"
     }
 
-    @Named("userId2")
+/*    @Named("userId2")
     @Provides
     fun provideMyString2(): String {
         return "Hello, Dagger Hilt! 2"
-    }
+    }*/
 }
