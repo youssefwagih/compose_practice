@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,8 +53,8 @@ class MainActivity : ComponentActivity() {
     fun BottomNavigation(navController: NavController) {
         val items = listOf(
             BottomNavItem.Home,
-            BottomNavItem.MyNetwork,
-            BottomNavItem.AddPost
+            BottomNavItem.Search,
+            BottomNavItem.Library
         )
         BottomNavigation(
             backgroundColor = Color.Black.copy(0.4f),
@@ -91,8 +90,8 @@ class MainActivity : ComponentActivity() {
 
     sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: String) {
         object Home : BottomNavItem("Home", R.drawable.ic_home, "home")
-        object MyNetwork : BottomNavItem("My Network", R.drawable.ic_my_network, "my_network")
-        object AddPost : BottomNavItem("Post", R.drawable.ic_post, "add_post")
+        object Search : BottomNavItem("Search", R.drawable.ic_my_network, "my_network")
+        object Library : BottomNavItem("Library", R.drawable.ic_post, "add_post")
     }
 
     @Composable
@@ -101,10 +100,10 @@ class MainActivity : ComponentActivity() {
             composable(BottomNavItem.Home.screen_route) {
                 TrackScreen()
             }
-            composable(BottomNavItem.MyNetwork.screen_route) {
+            composable(BottomNavItem.Search.screen_route) {
                 PlaylistScreen()
             }
-            composable(BottomNavItem.AddPost.screen_route) {
+            composable(BottomNavItem.Library.screen_route) {
                 Text(text = "TG Radio app", textAlign = TextAlign.Center, modifier = Modifier.fillMaxSize().padding(top = 16.dp))
             }
         }

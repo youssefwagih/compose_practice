@@ -26,6 +26,7 @@ import com.youssef.compose_practise.R
 @Composable
 fun TrackScreen (){
     Column(modifier = Modifier.fillMaxSize()) {
+        
         TGFilterChips()
         Spacer(modifier = Modifier.size(10.dp))
         Tracks()
