@@ -4,14 +4,19 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Blue
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,14 +46,47 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
-    fun MainScreenView(){
-        val navController = rememberNavController()
+    fun MainScreenView() {
+        Column(modifier = Modifier.fillMaxHeight()) {
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 10.dp,
+                        start = 10.dp,
+                        end = 10.dp,
+                        bottom = 10.dp
+                    ),
+                label = { Text("Input") },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Green,
+                    unfocusedBorderColor = Yellow,
+                    backgroundColor = Blue
+                ),
+            )
+        }
+/*        OutlinedTextField(
+            value = null,
+            onValueChange = {},
+            label = {},
+            textStyle = TextStyle(fontSize = 18.sp),
+            Modifier
+                .padding(top = 10.dp, start = 10.dp, end = 10.dp, bottom = 10.dp)
+                .fillMaxWidth()
+                .background(
+                    color = SnackbarDefaults.backgroundColor
+                )
+        )*/
+/*        val navController = rememberNavController()
         Scaffold(
             bottomBar = { BottomNavigation(navController = navController) }
         ) {
             NavigationGraph(navController = navController)
-        }
+        }*/
     }
+
     @Composable
     fun BottomNavigation(navController: NavController) {
         val items = listOf(
@@ -64,9 +102,18 @@ class MainActivity : ComponentActivity() {
             val currentRoute = navBackStackEntry?.destination?.route
             items.forEach { item ->
                 BottomNavigationItem(
-                    icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
-                    label = { Text(text = item.title,
-                        fontSize = 9.sp) },
+                    icon = {
+                        Icon(
+                            painterResource(id = item.icon),
+                            contentDescription = item.title
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = item.title,
+                            fontSize = 9.sp
+                        )
+                    },
                     selectedContentColor = Color.White,
                     unselectedContentColor = Color.White.copy(0.4f),
                     alwaysShowLabel = true,
@@ -104,7 +151,13 @@ class MainActivity : ComponentActivity() {
                 PlaylistScreen()
             }
             composable(BottomNavItem.Library.screen_route) {
-                Text(text = "TG Radio app", textAlign = TextAlign.Center, modifier = Modifier.fillMaxSize().padding(top = 16.dp))
+                Text(
+                    text = "TG Radio app",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp)
+                )
             }
         }
     }
