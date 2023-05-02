@@ -2,6 +2,7 @@ package com.youssef.compose_practise
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,78 +35,29 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Compose_practiseTheme {
-                MainScreenView()
+                OutlinedTextField(value = "hello", onValueChange = {})
             }
         }
+        reverseString("abcde".toCharArray())
     }
 
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
-    fun MainScreenView(){
-        val navController = rememberNavController()
-        Scaffold(
-            bottomBar = { BottomNavigation(navController = navController) }
-        ) {
-            NavigationGraph(navController = navController)
-        }
-    }
-    @Composable
-    fun BottomNavigation(navController: NavController) {
-        val items = listOf(
-            BottomNavItem.Home,
-            BottomNavItem.Search,
-            BottomNavItem.Library
-        )
-        BottomNavigation(
-            backgroundColor = Color.Black.copy(0.4f),
-            contentColor = Color.White
-        ) {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-            items.forEach { item ->
-                BottomNavigationItem(
-                    icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
-                    label = { Text(text = item.title,
-                        fontSize = 9.sp) },
-                    selectedContentColor = Color.White,
-                    unselectedContentColor = Color.White.copy(0.4f),
-                    alwaysShowLabel = true,
-                    selected = currentRoute == item.screen_route,
-                    onClick = {
-                        navController.navigate(item.screen_route) {
+    fun MainScreenView() {
 
-                            navController.graph.startDestinationRoute?.let { screen_route ->
-                                popUpTo(screen_route) {
-                                    saveState = true
-                                }
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
-            }
-        }
     }
 
-    sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: String) {
-        object Home : BottomNavItem("Home", R.drawable.ic_home, "home")
-        object Search : BottomNavItem("Search", R.drawable.ic_my_network, "my_network")
-        object Library : BottomNavItem("Library", R.drawable.ic_post, "add_post")
-    }
+    private fun reverseString(s: CharArray): Unit {
+        for (i in s.indices) {
+            val temp = s[i]
+            s[i] = s[s.size-1-i]
+            s[s.size-1-i] = temp
 
-    @Composable
-    fun NavigationGraph(navController: NavHostController) {
-        NavHost(navController, startDestination = BottomNavItem.Home.screen_route) {
-            composable(BottomNavItem.Home.screen_route) {
-                TrackScreen()
-            }
-            composable(BottomNavItem.Search.screen_route) {
-                PlaylistScreen()
-            }
-            composable(BottomNavItem.Library.screen_route) {
-                Text(text = "TG Radio app", textAlign = TextAlign.Center, modifier = Modifier.fillMaxSize().padding(top = 16.dp))
+            if((i+1) >= (s.size)/2) {
+                return
             }
         }
+
+
     }
 }
